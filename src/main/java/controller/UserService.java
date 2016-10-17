@@ -8,10 +8,10 @@ import javax.ws.rs.PathParam;
 public class UserService {
 
 
+    //First Step process
     @GET
     @Path("/{name}")
     public String sayHello(@PathParam("name") String name) {
-        String output = "Hi from Jersey REST Service: " + name;
-        return output;
+        return  "Hi from Jersey REST Service: " + name;
    }
 }

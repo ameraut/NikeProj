@@ -16,5 +16,7 @@ dependencies {
     compile "com.sun.jersey:jersey-server:1.9.1"
     compile "com.sun.jersey:jersey-json:1.9.1"
     compile 'com.sun.jersey.contribs:jersey-contribs:1.19'
+    compile group: 'com.fasterxml', name: 'jackson-xml-databind', version: '0.6.2'
+
 
 }
