@@ -136,25 +136,16 @@ public class Deck {
     }
 
     private List<String> merge(List left, List right){
-        List cards = new ArrayList();
-        //Using Iterators to safely remove objects from
-        Iterator leftIterator = left.iterator();
-        Iterator rightIterator = right.iterator();
-
-        //Variables to determine which iterator to take from to "interleave" the cards
-        int leftSize = left.size();
-        int rightSize = right.size();
-
         //interleave cards and return merged List
-        while(leftIterator.hasNext()||rightIterator.hasNext()){
-            if(leftSize>rightSize){
-                cards.add(leftIterator.next());
-                leftIterator.remove();
-                leftSize--;
+        List cards = new ArrayList();
+        //interleave cards and return merged List
+        while(left.size()+right.size()>0){
+            if(left.size()>right.size()){
+                cards.add(left.get(0));
+                left.remove(0);
             }else{
-                cards.add(rightIterator.next());
-                rightIterator.remove();
-                rightSize--;
+                cards.add(right.get(0));
+                right.remove(0);
             }
         }
         return cards;
