@@ -1,24 +1,44 @@
 package resources;
 
-import org.codehaus.jackson.map.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+//import java.util.List;
 import java.util.Random;
 
 /**
  * Created by Jon Moore
  */
 public class Deck {
-    private final String name;
-    private List<String> cards;
+    private String name;
+    private ArrayList cards;
 
-    //Believe the broken portion of code is due to the ObjectMapper getting confused on which of the constructors to use.
-    public Deck(){this(null);}
-    public Deck(String name){
+    public Deck() {
+    }
+
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
         this.name = name;
+    }
+    public ArrayList getCards() {
+        return cards;
+    }
+    public void setCards(ArrayList cards) {
+        this.cards = cards;
+    }
+
+
+    public void writeDeck() {
+        ObjectMapper mapper = new ObjectMapper();
+        String path = new File("src/main/java/resources/DeckDirectory").getAbsolutePath();
+
+        //Creating File that will be added into the DeckDirectory
+        File deckFile = new File(path +"/"+ this.getName() + ".json");
+        ArrayList cards = new ArrayList();
+        //region Add Default cards
         cards.add("2-heart");
         cards.add("3-heart");
         cards.add("4-heart");
@@ -71,36 +91,11 @@ public class Deck {
         cards.add("Q-clubs");
         cards.add("K-clubs");
         cards.add("A-clubs");
-    }
-    public Deck(String name, List<String> cards){
-        this.name = name;
-        this.cards = cards;
-    }
-
-    public String getName(){return name;}
-    public List<String> getCards(){return cards;}
-    private void setCards(List<String> cards){this.cards = cards;}
-
-
-    public void writeDeck() {
-        ObjectMapper mapper = new ObjectMapper();
-        //Creating directory if the directory does not exist on the machine
-        String path = new File("src/main/java/resources/DeckDirectory/").getAbsolutePath();
-        File deckDir = new File(path);
-
-        if(!deckDir.exists()){
-            try{
-                deckDir.mkdir();
-            }catch(Exception ex){
-                System.out.println("Directory was not created due to following exception: " + ex);
-            }
-        }
-
-        //Creating File that will be added into the DeckDirectory
-        File deckFile = new File(path + this.getName());
+        this.setCards(cards);
+        //endregion
 
         try {
-            //Populating the file with a name value along with default card values as a json object
+            //Writing file
             mapper.writeValue(deckFile, this);
         } catch (Exception ex) {
             System.out.println("Failure in writing the card due to the following exception: " + ex);
@@ -108,46 +103,49 @@ public class Deck {
         }
     }
 
-
-    public void simpleShuffle(){
-        for(String card:cards){
+    public void simpleShuffle() {
+        for (Object card : cards) {
             int index = cards.indexOf(card);
             Random rand = new Random();
             int randomIndex = rand.nextInt(cards.size());
 
-            while(randomIndex==index){
+            while (randomIndex == index) {
                 randomIndex = rand.nextInt(cards.size());
             }
-            String stub = cards.get(randomIndex);
+            String stub = cards.get(randomIndex).toString();
             cards.set(randomIndex, card);
             cards.set(index, stub);
         }
     }
-    public void complexShuffle(){
-        List leftCards =  cards.subList(0,cards.size()/2);
-        List rightCards = cards.subList((cards.size()/2)+1, cards.size()-1);
+
+    public void complexShuffle() {
+        /*List leftCards = cards.subList(1,2);
+        List rightCards = cards.subList((cards.size() / 2) + 1, cards.size() - 1);*/
         //Fun Fact
         //In 1992, Bayer and Diaconis showed that after seven random riffle shuffles of a deck of 52 cards, every
         //configuration is nearly equally likely. Shuffling more than this does not significantly increase the
         //"randomness"; shuffle less than this and the deck is "far" from random.
-        for(int i =0;i<7;i++) {
-            this.cards = merge(leftCards, rightCards);
+        ArrayList tempCards = new ArrayList();
+        for (int i = 0; i < 7; i++) {
+           tempCards = interleave();
         }
+        this.setCards(tempCards);
     }
 
-    private List<String> merge(List left, List right){
+    private ArrayList interleave() {
         //interleave cards and return merged List
-        List cards = new ArrayList();
-        //interleave cards and return merged List
-        while(left.size()+right.size()>0){
-            if(left.size()>right.size()){
-                cards.add(left.get(0));
-                left.remove(0);
+        int displacement = cards.size()/2;
+        ArrayList tempCards = cards;
+        for(int x=0;x<cards.size()/2;x=x+2){
+            Random rand = new Random();
+            if(rand.nextInt(2)<1){
+                tempCards.set(x,cards.get(x));
+                tempCards.set(x++,cards.get(x+displacement));
             }else{
-                cards.add(right.get(0));
-                right.remove(0);
+                tempCards.set(x,cards.get(x+displacement));
+                tempCards.set(x++,cards.get(x));
             }
         }
-        return cards;
+        return tempCards;
     }
 }

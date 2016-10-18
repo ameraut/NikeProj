@@ -5,6 +5,7 @@ import resources.Deck;
 
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.List;
@@ -13,51 +14,51 @@ import java.util.List;
 @Path("/decks")
 public class DeckController {
     private DeckDao deckDAO = new DeckDao();
-    List<Deck> Decks;
-
-    /*@GET
-    public Response getHelloWorld(){
-
-        return Response.status(200).entity("Hello World").build();
-    }*/
 
     @GET
     public Response getDecks(){
-        return Response.status(200).entity("getDecks is called, names of all decks are: "
-                + deckDAO.getAllDecks().toString()).build();
+        List<Deck> decks = deckDAO.getAllDecks();
+        String deckNames = "";
+        for (Deck deck: decks) {
+            if(deckNames.equals("")){
+                deckNames+=deck.getName();
+            }else{
+                deckNames+=", "+deck.getName();
+            }
+        }
+
+        return Response.status(200).entity("getDecks is called, names of all decks are: " +
+                deckNames).build();
     }
 
     @GET
     @Path("/{deckName}")
-    public Response getDeck(@PathParam("deckName") String deckName){
-        if(deckDAO.getAllDecks().size()==0){
-            return Response.status(200).entity("getDeck is called, but there are no decks to get.").build();
-        }else if(deckDAO.getDeck(deckName).toString().isEmpty()){
-            return Response.status(200).entity("getDeck is called, but the deck you requested is not here.").build();
-        }
-        return Response.status(200).entity("getDeck is called, name of the deck is: "
-                + deckDAO.getDeck(deckName).toString()).build();
-    }
-
-    @PUT
-    public Response createDeck(@FormParam("deckName") String name)throws IOException{
-        int result = deckDAO.addDeck(name);
-        if(result==1){
-            return Response.status(200).entity("createDeck is called, name of the created deck is: "
-                    + name).build();
-        }
-        return Response.status(500).build();
+    @Produces(MediaType.APPLICATION_JSON)
+    public Deck getDeck(@PathParam("deckName") String deckName){
+        Deck deck = deckDAO.getDeck(deckName);
+        return deck;
     }
 
     @POST
-    public Response updateDeck(
-            @FormParam("deckName") String name,
-            @FormParam("shuffle") int shuffle) throws IOException{
-        int result = deckDAO.updateDeck(name,shuffle);
+    @Path("/deck")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response createDeck(@QueryParam("deckName") String name)throws IOException{
+        int result = deckDAO.addDeck(name);
         if(result==1){
-            return Response.status(200).entity("updateDeck is called.").build();
+            return Response.status(200).entity("createDeck is called, name of the successfully created deck is: "
+                    + name).build();
         }
-        return Response.status(500).build();
+        return Response.status(500).entity("createDeck is called, but did not make the deck successfully. Please try again?").build();
+    }
+
+    @PUT
+    @Path("/deck")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateDeck(
+            @QueryParam("deckName") String name,
+            @QueryParam("shuffle") int shuffle) throws IOException{
+        deckDAO.updateDeck(name,shuffle);
+        return Response.status(200).entity("updateDeck is called.").build();
     }
 
     @DELETE
@@ -65,8 +66,8 @@ public class DeckController {
     public Response deleteDeck(@PathParam("deckName") String deckName){
         int result = deckDAO.deleteDeck(deckName);
         if(result == 1){
-            return Response.status(200).entity("deletedDeck is called.").build();
+            return Response.status(200).entity("deleteDeck is called.").build();
         }
-        return Response.status(500).build();
+        return Response.status(500).entity("deleteDeck is called, but did not delete.").build();
     }
 }

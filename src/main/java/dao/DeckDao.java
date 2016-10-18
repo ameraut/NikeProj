@@ -1,6 +1,8 @@
 package dao;
 
-import org.codehaus.jackson.map.ObjectMapper;
+//import org.codehaus.jackson.map.ObjectMapper;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 import resources.Deck;
 
 import java.io.*;
@@ -12,28 +14,25 @@ import java.util.List;
  */
 public class DeckDao {
     private static ObjectMapper mapper = new ObjectMapper();
-    private static final String path = new File("src/main/java/resources/DeckDirectory/").getAbsolutePath();
+    private static final String path = new File("src/main/java/resources/DeckDirectory").getAbsolutePath();
 
-    //This method is broken, and is the lynchpin of the other functions. I have found where my problem is occurring,
-    //but I am not able to fix it at this time. More comments are made inside.
     public List<Deck> getAllDecks(){
         String path = new File("src/main/java/resources/DeckDirectory/").getAbsolutePath();
         File deckDir = new File(path);
 
         //Convert File command to get all Files into a List that is used by the rest of the program.
         File[] directoryListing = deckDir.listFiles();
-        List<Deck> deckList = new ArrayList<Deck>();
+        List<Deck> deckList = new ArrayList<>();
 
-        for (File child:directoryListing) {
-            try {
-                //Code is broken here. The class Deck is receiving a null value. Need to look into why this is occurring.
-                //Due to time constraint, going to continue project as if this was working.
-                Deck deck = mapper.readValue(child.getAbsoluteFile(), Deck.class);
-                deckList.add(deck);
-            }catch(NullPointerException ex){
-                ex.printStackTrace();
-            }catch(IOException ex){
-                ex.printStackTrace();
+        if(directoryListing!=null) {
+            for (File child : directoryListing) {
+                try {
+                    File childFile = new File(child.getAbsolutePath());
+                    Deck deck = mapper.readValue(childFile, Deck.class);
+                    deckList.add(deck);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
         }
         return deckList;
@@ -52,6 +51,7 @@ public class DeckDao {
     }
 
     //Returns 1 if successful, and returns 0 if not. Used for testing purposes.
+    //Should add an event that will hold the process until it is done writing the file
     public int addDeck(String name){
         //Get all Files of Decks
         List<Deck> deckList = getAllDecks();
@@ -65,7 +65,8 @@ public class DeckDao {
         }
 
         if(!deckExists){
-            Deck deck = new Deck(name);
+            Deck deck = new Deck();
+            deck.setName(name);
             //Add File
             deck.writeDeck();
             return 1;
@@ -73,25 +74,23 @@ public class DeckDao {
         return 0;
     }
 
-    //Returns 1 if successful, and returns 0 if not. Used for testing purposes.
-    public int updateDeck(String name, int shuffle){
+    public void updateDeck(String name, int shuffle){
         //Get all Files of Decks
         List<Deck> deckList = getAllDecks();
         //Look through all of the Decks
         for(Deck deck: deckList){
             if(deck.getName().equalsIgnoreCase(name)){
-                int index = deckList.indexOf(deck);
                 if(shuffle==0){
                     deck.simpleShuffle();
+                    System.out.println(deck.getCards().toString());
                 }else {
                     deck.complexShuffle();
+                    System.out.println(deck.getCards().toString());
                 }
                 //Update File
                 deck.writeDeck();
-                return 1;
             }
         }
-        return 0;
     }
 
     //Returns 1 if successful, and returns 0 if not. Used for testing purposes.
@@ -103,7 +102,7 @@ public class DeckDao {
             if(deck.getName().equalsIgnoreCase(name)){
                 try{
                     //Delete deck that is found to exist
-                    File file = new File(path+deck.getName());
+                    File file = new File(path+"/"+deck.getName()+".json");
                     if(file.delete()){
                         return 1;
                     }
@@ -114,4 +113,6 @@ public class DeckDao {
         }
         return 0;
     }
+
+
 }
