@@ -1,8 +1,7 @@
 package controller;
 
 import dao.DeckDao;
-import resources.Deck;
-
+import resources.NikeDeck;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -17,9 +16,9 @@ public class DeckController {
 
     @GET
     public Response getDecks(){
-        List<Deck> decks = deckDAO.getAllDecks();
+        List<NikeDeck> decks = deckDAO.getAllDecks();
         String deckNames = "";
-        for (Deck deck: decks) {
+        for (NikeDeck deck: decks) {
             if(deckNames.equals("")){
                 deckNames+=deck.getName();
             }else{
@@ -34,8 +33,8 @@ public class DeckController {
     @GET
     @Path("/{deckName}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Deck getDeck(@PathParam("deckName") String deckName){
-        Deck deck = deckDAO.getDeck(deckName);
+    public NikeDeck getDeck(@PathParam("deckName") String deckName){
+        NikeDeck deck = deckDAO.getDeck(deckName);
         return deck;
     }
 
@@ -45,10 +44,10 @@ public class DeckController {
     public Response createDeck(@QueryParam("deckName") String name)throws IOException{
         int result = deckDAO.addDeck(name);
         if(result==1){
-            return Response.status(200).entity("createDeck is called, name of the successfully created deck is: "
+            return Response.status(204).entity("createDeck is called, name of the successfully created deck is: "
                     + name).build();
         }
-        return Response.status(500).entity("createDeck is called, but did not make the deck successfully. Please try again?").build();
+        return Response.status(500).entity("createDeck is called, but did not make the deck successfully. Please try again.").build();
     }
 
     @PUT
@@ -58,7 +57,7 @@ public class DeckController {
             @QueryParam("deckName") String name,
             @QueryParam("shuffle") int shuffle) throws IOException{
         deckDAO.updateDeck(name,shuffle);
-        return Response.status(200).entity("updateDeck is called.").build();
+        return Response.status(204).entity("updateDeck is called.").build();
     }
 
     @DELETE
@@ -66,7 +65,7 @@ public class DeckController {
     public Response deleteDeck(@PathParam("deckName") String deckName){
         int result = deckDAO.deleteDeck(deckName);
         if(result == 1){
-            return Response.status(200).entity("deleteDeck is called.").build();
+            return Response.status(204).entity("deleteDeck is called.").build();
         }
         return Response.status(500).entity("deleteDeck is called, but did not delete.").build();
     }

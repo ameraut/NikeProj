@@ -18,7 +18,11 @@ dependencies {
     compile 'com.sun.jersey.contribs:jersey-contribs:1.19'
     compile 'com.fasterxml.jackson.core:jackson-core'
     compile 'com.fasterxml.jackson.datatype:jackson-datatype-jdk8'
+    // https://mvnrepository.com/artifact/org.glassfish.jersey.test-framework/jersey-test-framework-core
 
+}
+test{
 
+    include 'test/java/**'
 
 }

@@ -3,7 +3,7 @@ package dao;
 //import org.codehaus.jackson.map.ObjectMapper;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import resources.Deck;
+import resources.NikeDeck;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -14,21 +14,20 @@ import java.util.List;
  */
 public class DeckDao {
     private static ObjectMapper mapper = new ObjectMapper();
-    private static final String path = new File("src/main/java/resources/DeckDirectory").getAbsolutePath();
+    private static final String path = new File("src/main/resources/DeckDirectory").getAbsolutePath();
 
-    public List<Deck> getAllDecks(){
-        String path = new File("src/main/java/resources/DeckDirectory/").getAbsolutePath();
+    public List<NikeDeck> getAllDecks(){
         File deckDir = new File(path);
 
         //Convert File command to get all Files into a List that is used by the rest of the program.
         File[] directoryListing = deckDir.listFiles();
-        List<Deck> deckList = new ArrayList<>();
+        List<NikeDeck> deckList = new ArrayList<>();
 
         if(directoryListing!=null) {
             for (File child : directoryListing) {
                 try {
                     File childFile = new File(child.getAbsolutePath());
-                    Deck deck = mapper.readValue(childFile, Deck.class);
+                    NikeDeck deck = mapper.readValue(childFile, NikeDeck.class);
                     deckList.add(deck);
                 } catch (Exception ex) {
                     ex.printStackTrace();
@@ -38,11 +37,11 @@ public class DeckDao {
         return deckList;
     }
 
-    public Deck getDeck(String name){
+    public NikeDeck getDeck(String name){
         //Get all of the Decks
-        List<Deck> decks = getAllDecks();
+        List<NikeDeck> decks = getAllDecks();
         //Look through all of the Decks
-        for(Deck deck:decks){
+        for(NikeDeck deck:decks){
             if(deck.getName().equalsIgnoreCase(name)){
                 return deck;
             }
@@ -54,10 +53,10 @@ public class DeckDao {
     //Should add an event that will hold the process until it is done writing the file
     public int addDeck(String name){
         //Get all Files of Decks
-        List<Deck> deckList = getAllDecks();
+        List<NikeDeck> deckList = getAllDecks();
         boolean deckExists = false;
         //Look through all of the Decks
-        for(Deck deck:deckList){
+        for(NikeDeck deck:deckList){
             if(deck.getName().equalsIgnoreCase(name)){
                 deckExists = true;
                 break;
@@ -65,7 +64,7 @@ public class DeckDao {
         }
 
         if(!deckExists){
-            Deck deck = new Deck();
+            NikeDeck deck = new NikeDeck();
             deck.setName(name);
             //Add File
             deck.writeDeck();
@@ -76,9 +75,9 @@ public class DeckDao {
 
     public void updateDeck(String name, int shuffle){
         //Get all Files of Decks
-        List<Deck> deckList = getAllDecks();
+        List<NikeDeck> deckList = getAllDecks();
         //Look through all of the Decks
-        for(Deck deck: deckList){
+        for(NikeDeck deck: deckList){
             if(deck.getName().equalsIgnoreCase(name)){
                 if(shuffle==0){
                     deck.simpleShuffle();
@@ -96,9 +95,9 @@ public class DeckDao {
     //Returns 1 if successful, and returns 0 if not. Used for testing purposes.
     public int deleteDeck(String name){
         //Get all Files of Decks
-        List<Deck> deckList = getAllDecks();
+        List<NikeDeck> deckList = getAllDecks();
         //Look through all of the Decks
-        for(Deck deck:deckList){
+        for(NikeDeck deck:deckList){
             if(deck.getName().equalsIgnoreCase(name)){
                 try{
                     //Delete deck that is found to exist
