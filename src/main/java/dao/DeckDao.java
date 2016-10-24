@@ -49,9 +49,8 @@ public class DeckDao {
         return null;
     }
 
-    //Returns 1 if successful, and returns 0 if not. Used for testing purposes.
     //Should add an event that will hold the process until it is done writing the file
-    public int addDeck(String name){
+    public void addDeck(String name){
         //Get all Files of Decks
         List<NikeDeck> deckList = getAllDecks();
         boolean deckExists = false;
@@ -68,9 +67,7 @@ public class DeckDao {
             deck.setName(name);
             //Add File
             deck.writeDeck();
-            return 1;
         }
-        return 0;
     }
 
     public void updateDeck(String name, int shuffle){
@@ -92,8 +89,7 @@ public class DeckDao {
         }
     }
 
-    //Returns 1 if successful, and returns 0 if not. Used for testing purposes.
-    public int deleteDeck(String name){
+    public void deleteDeck(String name){
         //Get all Files of Decks
         List<NikeDeck> deckList = getAllDecks();
         //Look through all of the Decks
@@ -102,15 +98,12 @@ public class DeckDao {
                 try{
                     //Delete deck that is found to exist
                     File file = new File(path+"/"+deck.getName()+".json");
-                    if(file.delete()){
-                        return 1;
-                    }
+                    file.delete();
                 }catch(Exception ex){
                     ex.printStackTrace();
                 }
             }
         }
-        return 0;
     }
 
 

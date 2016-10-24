@@ -101,7 +101,6 @@ public class NikeDeck implements Deck {
 
         }
     }
-
     public void simpleShuffle() {
         for (Object card : cards) {
             int index = cards.indexOf(card);
@@ -116,7 +115,6 @@ public class NikeDeck implements Deck {
             cards.set(index, stub);
         }
     }
-
     public void complexShuffle() {
         //Fun Fact
         //In 1992, Bayer and Diaconis showed that after seven random riffle shuffles of a deck of 52 cards, every
