@@ -25,14 +25,8 @@ dependencies {
 
 }
 
-test{
-    filter{
-        includeTestsMatching "*DeckControllerTest"
-    }
-}
-
-task DeckControllerTest << {
-    println 'All integration testing is done in here.'
-    includeTestsMatching "java.controller.DeckControllerTest"
+//Starts and stops Jetty Server for a given task "test" which is mapped to the default src/test/java
+gretty{
+    integrationTestTask = 'test'
 }
 

@@ -20,3 +20,6 @@ Chrome as well. The following is the link to this application: "https://www.getp
     Using this tool, you should be able to interact with all of the HTTP requests that are created in this project. If
 you do not know how to use this tool. Please contact me and I will help you through it. Otherwise, I would suggest you
 use whatever application you are most comfortable with to check the HTTP requests in this project.
+
+    To do automated testing, all you will need to do it clean and build the project. It should generate html under
+nikedeck/build/reports/tests/index.html that you can open and see the results of your test.
