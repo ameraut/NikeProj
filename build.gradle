@@ -2,6 +2,10 @@ group 'nikedeck'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
+    compileJava{
+        sourceCompatibility='1.8'
+
+    }
 apply plugin: 'war'
 apply from: 'https://raw.github.com/akhikhl/gretty/master/pluginScripts/gretty.plugin'
 
@@ -10,7 +14,7 @@ repositories {
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.11'
+    testCompile 'junit:junit:4.12'
     compile "javax.ws.rs:jsr311-api:1.1"
     compile "com.sun.jersey:jersey-core:1.9.1"
     compile "com.sun.jersey:jersey-server:1.9.1"
@@ -18,11 +22,17 @@ dependencies {
     compile 'com.sun.jersey.contribs:jersey-contribs:1.19'
     compile 'com.fasterxml.jackson.core:jackson-core'
     compile 'com.fasterxml.jackson.datatype:jackson-datatype-jdk8'
-    // https://mvnrepository.com/artifact/org.glassfish.jersey.test-framework/jersey-test-framework-core
 
 }
+
 test{
-
-    include 'test/java/**'
-
+    filter{
+        includeTestsMatching "*DeckControllerTest"
+    }
 }
+
+task DeckControllerTest << {
+    println 'All integration testing is done in here.'
+    includeTestsMatching "java.controller.DeckControllerTest"
+}
+
