@@ -23,7 +23,6 @@ use whatever application you are most comfortable with to check the HTTP request
 
     To do automated testing, all you will need to do it clean and build the project. It should generate html under
 nikedeck/build/reports/tests/index.html that you can open and see the results of your tests. Currently the test portion
-of this code is not working due to SocketExceptions as a result of unfamiliarity of the gretty plugin. It is my belief
-that the gretty plugin starts/stops the Jetty server around the task "":test". Because I am unfamiliar, I currently have
-to put a pin into getting the tests fully working. Instead, the test location have placeholders and pseudo-code that
-will direct future endeavors to get these tests working.
+of this code is not operational. I have attempted to create them, but am currently blocked until I find out the
+proper dependencies to use. In their stead, their are placeholder strings along with some pseudo-code as to the steps
+that should be taken to determine if the requests are working as needed.
