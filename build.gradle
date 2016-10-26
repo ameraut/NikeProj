@@ -7,7 +7,7 @@ apply plugin: 'java'
 
     }
 apply plugin: 'war'
-apply from: 'https://raw.github.com/akhikhl/gretty/master/pluginScripts/gretty.plugin'
+apply plugin: 'jetty'
 
 repositories {
     mavenCentral()
@@ -20,13 +20,8 @@ dependencies {
     compile "com.sun.jersey:jersey-server:1.9.1"
     compile "com.sun.jersey:jersey-json:1.9.1"
     compile 'com.sun.jersey.contribs:jersey-contribs:1.19'
-    compile 'com.fasterxml.jackson.core:jackson-core'
-    compile 'com.fasterxml.jackson.datatype:jackson-datatype-jdk8'
-
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.8.4'
+    compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jdk8', version: '2.8.4'
 }
 
-//Starts and stops Jetty Server for a given task "test" which is mapped to the default src/test/java
-gretty{
-    integrationTestTask = 'test'
-}
 
