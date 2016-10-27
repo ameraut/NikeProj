@@ -1,5 +1,4 @@
 package controller;
-
 import dao.DeckDao;
 import resources.NikeDeck;
 
@@ -7,7 +6,6 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
-
 
 @Path("/decks")
 public class DeckController {
@@ -76,7 +74,6 @@ public class DeckController {
         }catch(Exception ex){
             ex.printStackTrace();
             return Response.status(500).entity("deleteDeck is called, but did not delete.").build();
-
         }
 
     }

@@ -1,7 +1,9 @@
-import com.sun.deploy.config.ClientConfig;
-import com.sun.security.ntlm.Client;
+import com.sun.jersey.api.core.ResourceConfig;
+import com.sun.jersey.test.framework.JerseyTest;
 import controller.DeckController;
 
+import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import resources.NikeDeck;
 
@@ -18,9 +20,23 @@ import javax.ws.rs.core.Response;
 /**
  * Created by Jon
  */
-public class DeckControllerTest{
+public class DeckControllerTest extends JerseyTest {
     private static final String DECK_NAME = "TheOneTrueDeck";
 
+    /*@Override
+    protected Application configure(){
+        return new ResourceConfig(DeckController.class);
+    }*/
+
+    @BeforeClass
+    public void setUp(){
+        //Setup Jetty Server
+    }
+
+    @AfterClass
+    public void tearDown(){
+        //Terminate Jetty Server
+    }
     @Test
     public void getDecksTest() throws Exception {
         System.out.println("I am in the getDecks test.");
@@ -58,5 +74,4 @@ public class DeckControllerTest{
         /*Response output = target("/decks/"+DECK_NAME).request().delete();
         assertEquals("Should return status 204",204, output.getStatus());*/
     }
-
 }
