@@ -1,6 +1,8 @@
 package resources.service;
 
-import resources.service.Shuffle;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.databind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -8,7 +10,11 @@ import java.util.Random;
 /**
  * Created by Jon on 10/26/2016.
  */
-public class SimpleShuffle implements Shuffle {
+@JsonTypeInfo(use=JsonTypeInfo.Id.CLASS, include=JsonTypeInfo.As.PROPERTY, property="@class")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = SimpleShuffleService.class, name = "SimpleShuffleService"),
+})
+public class SimpleShuffleService implements ShuffleService {
     public ArrayList shuffle(ArrayList cards){
         for (Object card : cards) {
             int index = cards.indexOf(card);
@@ -24,4 +30,8 @@ public class SimpleShuffle implements Shuffle {
         }
         return cards;
     }
+   /* @Override
+    public String toString(){
+        return "simple";
+    }*/
 }

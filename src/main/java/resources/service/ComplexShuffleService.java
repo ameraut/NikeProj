@@ -1,6 +1,8 @@
 package resources.service;
 
-import resources.service.Shuffle;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.databind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -8,7 +10,11 @@ import java.util.Random;
 /**
  * Created by Jon on 10/26/2016.
  */
-public class ComplexShuffle implements Shuffle {
+@JsonTypeInfo(use=JsonTypeInfo.Id.CLASS, include=JsonTypeInfo.As.PROPERTY, property="@class")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = ComplexShuffleService.class, name = "ComplexShuffleService"),
+})
+public class ComplexShuffleService implements ShuffleService {
     public ArrayList shuffle(ArrayList cards){
         //Fun Fact
         //In 1992, Bayer and Diaconis showed that after seven random riffle shuffles of a deck of 52 cards, every
@@ -38,4 +44,8 @@ public class ComplexShuffle implements Shuffle {
         }
         return tempCards;
     }
+    /*@Override
+    public String toString(){
+        return "complex";
+    }*/
 }

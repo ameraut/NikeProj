@@ -1,10 +1,16 @@
 package controller;
 import dao.DeckDao;
-import resources.NikeDeck;
+import resources.injector.SimpleShuffleInjector;
+import resources.objects.NikeDeck;
+import resources.injector.ComplexShuffleInjector;
+import resources.injector.ShuffleServiceInjector;
+import resources.service.ComplexShuffleService;
+import resources.service.SimpleShuffleService;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
 import java.util.List;
 
 @Path("/decks")
@@ -36,9 +42,74 @@ public class DeckController {
     @POST
     @Path("/deck")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createDeck(@QueryParam("deckName") String name){
+    public Response createDeck(@QueryParam("deckName") String name,@QueryParam("shuffleType") String shuffleService){
+        ShuffleServiceInjector injector = null;
+        NikeDeck deck = null;
+        //region Add Default cards
+        ArrayList cards = new ArrayList();
+        cards.add("2-heart");
+        cards.add("3-heart");
+        cards.add("4-heart");
+        cards.add("5-heart");
+        cards.add("6-heart");
+        cards.add("7-heart");
+        cards.add("8-heart");
+        cards.add("9-heart");
+        cards.add("10-heart");
+        cards.add("J-heart");
+        cards.add("Q-heart");
+        cards.add("K-heart");
+        cards.add("A-heart");
+        cards.add("2-diamond");
+        cards.add("3-diamond");
+        cards.add("4-diamond");
+        cards.add("5-diamond");
+        cards.add("6-diamond");
+        cards.add("7-diamond");
+        cards.add("8-diamond");
+        cards.add("9-diamond");
+        cards.add("10-diamond");
+        cards.add("J-diamond");
+        cards.add("Q-diamond");
+        cards.add("K-diamond");
+        cards.add("A-diamond");
+        cards.add("2-spades");
+        cards.add("3-spades");
+        cards.add("4-spades");
+        cards.add("5-spades");
+        cards.add("6-spades");
+        cards.add("7-spades");
+        cards.add("8-spades");
+        cards.add("9-spades");
+        cards.add("10-spades");
+        cards.add("J-spades");
+        cards.add("Q-spades");
+        cards.add("K-spades");
+        cards.add("A-spades");
+        cards.add("2-clubs");
+        cards.add("3-clubs");
+        cards.add("4-clubs");
+        cards.add("5-clubs");
+        cards.add("6-clubs");
+        cards.add("7-clubs");
+        cards.add("8-clubs");
+        cards.add("9-clubs");
+        cards.add("10-clubs");
+        cards.add("J-clubs");
+        cards.add("Q-clubs");
+        cards.add("K-clubs");
+        cards.add("A-clubs");
+        //endregion
         try {
-            deckDAO.addDeck(name);
+            if(shuffleService.equalsIgnoreCase("complex")){
+                injector = new ComplexShuffleInjector();
+                deck = injector.getDeck(name, cards);
+            }else{
+                injector = new SimpleShuffleInjector();
+                deck = injector.getDeck(name, cards);
+            }
+            deckDAO.addDeck(deck);
+
             return Response.status(204).entity("createDeck is called, name of the successfully created deck is: "
                     + name).build();
         }catch(Exception ex){
@@ -53,10 +124,9 @@ public class DeckController {
     @Path("/deck")
     @Produces(MediaType.APPLICATION_JSON)
     public Response updateDeck(
-            @QueryParam("deckName") String name,
-            @QueryParam("shuffle") int shuffle){
+            @QueryParam("deckName") String name){
         try{
-            deckDAO.updateDeck(name,shuffle);
+            deckDAO.updateDeck(name);
             return Response.status(204).entity("updateDeck is called.").build();
         }catch(Exception ex){
             ex.printStackTrace();
