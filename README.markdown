@@ -15,14 +15,11 @@ been set up correctly. A good starting endpoint to check is the getAllDecks endp
 This should give a blank page with a string saying you have called the getDecks GET request and will deliver a list
 of deck names. You can check the endpoints from this page, but I suggest that you use the "Postman" application to check
 all request types. This application can be installed on Windows or Mac, but for windows you will need to have installed
-Chrome as well. The following is the link to this application: [link]https://www.getpostman.com/.
+Chrome as well. The following is the link to this application: https://www.getpostman.com/.
 
 Using this tool, you should be able to interact with all of the HTTP requests that are created in this project. If
 you do not know how to use this tool. Please contact me and I will help you through it. Otherwise, I would suggest you
 use whatever application you are most comfortable with to check the HTTP requests in this project.
 
-To do automated testing, all you will need to do it clean and build the project. It should generate html under
-nikedeck/build/reports/tests/index.html that you can open and see the results of your tests. Currently the test portion
-of this code is not operational. I have attempted to create them, but am currently blocked until I find out the
-proper dependencies to use. In their stead, their are placeholder strings along with some pseudo-code as to the steps
-that should be taken to determine if the requests are working as needed.
+Currently, there are automated tests but they currently do not work as a result of a problem with the endpoints not being
+seen. This looks to be due to the imports conflicting and will take some time to delve into.
