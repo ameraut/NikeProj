@@ -1,17 +1,11 @@
 package controller;
-import dao.DeckDao;
-import resources.injector.SimpleShuffleInjector;
-import resources.objects.NikeDeck;
-import resources.injector.ComplexShuffleInjector;
-import resources.injector.ShuffleServiceInjector;
-import resources.service.ComplexShuffleService;
-import resources.service.SimpleShuffleService;
 
+import dao.DeckDao;
+import resources.injector.*;
+import resources.objects.*;
 import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import java.util.ArrayList;
-import java.util.List;
+import javax.ws.rs.core.*;
+import java.util.*;
 
 @Path("/decks")
 public class DeckController {
@@ -43,8 +37,8 @@ public class DeckController {
     @Path("/deck")
     @Produces(MediaType.APPLICATION_JSON)
     public Response createDeck(@QueryParam("deckName") String name,@QueryParam("shuffleType") String shuffleService){
-        ShuffleServiceInjector injector = null;
-        NikeDeck deck = null;
+        ShuffleServiceInjector injector;
+        NikeDeck deck;
         //region Add Default cards
         ArrayList cards = new ArrayList();
         cards.add("2-heart");

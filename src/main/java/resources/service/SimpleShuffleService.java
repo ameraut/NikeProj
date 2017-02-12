@@ -30,8 +30,4 @@ public class SimpleShuffleService implements ShuffleService {
         }
         return cards;
     }
-   /* @Override
-    public String toString(){
-        return "simple";
-    }*/
 }

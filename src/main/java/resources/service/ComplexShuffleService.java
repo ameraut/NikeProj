@@ -44,8 +44,4 @@ public class ComplexShuffleService implements ShuffleService {
         }
         return tempCards;
     }
-    /*@Override
-    public String toString(){
-        return "complex";
-    }*/
 }

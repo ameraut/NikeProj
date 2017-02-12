@@ -14,5 +14,4 @@ import java.util.ArrayList;
 })
 public interface ShuffleService {
     ArrayList shuffle (ArrayList cards);
-   // String toString();
 }
