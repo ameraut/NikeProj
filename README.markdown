@@ -1,6 +1,3 @@
-                                #This is a webservice exercise to show RESTful web development.
-------------------------------------------------------------------------------------------------------------------------
-
 To start this project you will need to pull this project onto your local machine from GIT. Once you have done this,
 you can start the project by opening a terminal window in the directory of your pulled repo and typing:
 
