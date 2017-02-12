@@ -22,4 +22,4 @@ you do not know how to use this tool. Please contact me and I will help you thro
 use whatever application you are most comfortable with to check the HTTP requests in this project.
 
 Currently, there are automated tests but they currently do not work as a result of a problem with the endpoints not being
-seen. This looks to be due to the imports conflicting and will take some time to delve into.
+seen. This looks to be due to the imports/web.xml conflicting and will take some time to delve into.

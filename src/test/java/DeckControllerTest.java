@@ -8,7 +8,6 @@ import javax.ws.rs.core.*;
 import static junit.framework.TestCase.assertNotNull;
 import static org.junit.Assert.assertEquals;
 
-
 /**
  * Created by Jon
  */

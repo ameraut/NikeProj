@@ -3,8 +3,6 @@ package resources.objects;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import resources.service.ShuffleService;
-import resources.service.SimpleShuffleService;
-
 import java.util.ArrayList;
 
 /**

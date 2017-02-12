@@ -1,10 +1,7 @@
 package dao;
 
-//import org.codehaus.jackson.map.ObjectMapper;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import resources.objects.NikeDeck;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +60,6 @@ public class DeckDao {
         }
         //If Deck with assigned deck name doesn't exist, write deck into database
         if(!deckExists){
-            //Add File
             writeDeck(deck);
         }
     }
@@ -71,12 +67,12 @@ public class DeckDao {
     public void updateDeck(String name){
         //Get all Files of Decks
         List<NikeDeck> deckList = getAllDecks();
+
         //Look through all of the Decks
         for(NikeDeck deck: deckList){
             if(deck.getName().equalsIgnoreCase(name)){
                 //Shuffle Deck
                 deck.processShuffle();
-                System.out.println(deck.getCards().toString());
                 //Update File
                 writeDeck(deck);
             }
@@ -86,6 +82,7 @@ public class DeckDao {
     public void deleteDeck(String name){
         //Get all Files of Decks
         List<NikeDeck> deckList = getAllDecks();
+
         //Look through all of the Decks
         for(NikeDeck deck:deckList){
             if(deck.getName().equalsIgnoreCase(name)){
