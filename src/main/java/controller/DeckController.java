@@ -28,9 +28,12 @@ public class DeckController {
     @GET
     @Path("/{deckName}")
     @Produces(MediaType.APPLICATION_JSON)
-    public NikeDeck getDeck(@PathParam("deckName") String deckName){
+    public Response getDeck(@PathParam("deckName") String deckName){
         NikeDeck deck = deckDAO.getDeck(deckName);
-        return deck;
+        if(deck==null){
+            return Response.status(400).entity("getDeck is called, but the deck you requested does not exist.").build();
+        }
+        return Response.status(204).entity(deck).build();
     }
 
     @POST
@@ -39,68 +42,20 @@ public class DeckController {
     public Response createDeck(@QueryParam("deckName") String name,@QueryParam("shuffleType") String shuffleService){
         ShuffleServiceInjector injector;
         NikeDeck deck;
-        //region Add Default cards
-        ArrayList cards = new ArrayList();
-        cards.add("2-heart");
-        cards.add("3-heart");
-        cards.add("4-heart");
-        cards.add("5-heart");
-        cards.add("6-heart");
-        cards.add("7-heart");
-        cards.add("8-heart");
-        cards.add("9-heart");
-        cards.add("10-heart");
-        cards.add("J-heart");
-        cards.add("Q-heart");
-        cards.add("K-heart");
-        cards.add("A-heart");
-        cards.add("2-diamond");
-        cards.add("3-diamond");
-        cards.add("4-diamond");
-        cards.add("5-diamond");
-        cards.add("6-diamond");
-        cards.add("7-diamond");
-        cards.add("8-diamond");
-        cards.add("9-diamond");
-        cards.add("10-diamond");
-        cards.add("J-diamond");
-        cards.add("Q-diamond");
-        cards.add("K-diamond");
-        cards.add("A-diamond");
-        cards.add("2-spades");
-        cards.add("3-spades");
-        cards.add("4-spades");
-        cards.add("5-spades");
-        cards.add("6-spades");
-        cards.add("7-spades");
-        cards.add("8-spades");
-        cards.add("9-spades");
-        cards.add("10-spades");
-        cards.add("J-spades");
-        cards.add("Q-spades");
-        cards.add("K-spades");
-        cards.add("A-spades");
-        cards.add("2-clubs");
-        cards.add("3-clubs");
-        cards.add("4-clubs");
-        cards.add("5-clubs");
-        cards.add("6-clubs");
-        cards.add("7-clubs");
-        cards.add("8-clubs");
-        cards.add("9-clubs");
-        cards.add("10-clubs");
-        cards.add("J-clubs");
-        cards.add("Q-clubs");
-        cards.add("K-clubs");
-        cards.add("A-clubs");
-        //endregion
+        if(name.isEmpty()){
+            return Response.status(400).entity("createDeck is called, but an improper deck name has been " +
+                    "given").build();
+        }
         try {
             if(shuffleService.equalsIgnoreCase("complex")){
                 injector = new ComplexShuffleInjector();
-                deck = injector.getDeck(name, cards);
-            }else{
+                deck = injector.getDeck(name);
+            }else if(shuffleService.equalsIgnoreCase("simple")){
                 injector = new SimpleShuffleInjector();
-                deck = injector.getDeck(name, cards);
+                deck = injector.getDeck(name);
+            }else{
+                return Response.status(400).entity("createDeck is called, but an unsupported shuffle was requested. " +
+                        "Please try again with a supported shuffle.").build();
             }
             deckDAO.addDeck(deck);
 

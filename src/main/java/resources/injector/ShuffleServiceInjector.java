@@ -8,5 +8,5 @@ import java.util.ArrayList;
  * Created by Jon on 2/11/2017.
  */
 public interface ShuffleServiceInjector {
-    NikeDeck getDeck(String name, ArrayList cards);
+    NikeDeck getDeck(String name);
 }

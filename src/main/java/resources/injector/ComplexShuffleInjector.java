@@ -10,7 +10,7 @@ import java.util.ArrayList;
  */
 public class ComplexShuffleInjector implements ShuffleServiceInjector {
     @Override
-    public NikeDeck getDeck(String name, ArrayList cards) {
-        return new NikeDeck(name,cards, new ComplexShuffleService());
+    public NikeDeck getDeck(String name) {
+        return new NikeDeck(name, new ComplexShuffleService());
     }
 }
