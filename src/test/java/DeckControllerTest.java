@@ -1,29 +1,23 @@
 import controller.DeckController;
-//import org.glassfish.jersey.server.ResourceConfig;
-import org.glassfish.jersey.test.*;
-import org.junit.Test;
-import resources.objects.NikeDeck;
+import resources.objects.ExpandedDeck;
 import resources.service.SimpleShuffleService;
-
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.*;
-import java.util.ArrayList;
-
+import org.glassfish.jersey.server.ResourceConfig;
+import org.glassfish.jersey.test.*;
+import org.junit.Test;
 import static junit.framework.TestCase.assertNotNull;
 import static org.junit.Assert.assertEquals;
 
-/**
- * Created by Jon
- */
 public class DeckControllerTest extends JerseyTest {
-    private static final NikeDeck DECK = new NikeDeck("OneTrueDeck", new SimpleShuffleService());
+    private static final ExpandedDeck DECK = new ExpandedDeck("OneTrueDeck", new SimpleShuffleService());
 
-    /*@Override
+    @Override
     protected Application configure(){
         enable(TestProperties.LOG_TRAFFIC);
         enable(TestProperties.DUMP_ENTITY);
         return new ResourceConfig(DeckController.class);
-    }*/
+    }
 
     @Test
     public void getDecksTest() throws Exception {
