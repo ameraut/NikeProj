@@ -5,23 +5,19 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import resources.service.ShuffleService;
 import java.util.ArrayList;
 
-/**
- * Created by Jon Moore
- */
 @JsonTypeInfo(use=JsonTypeInfo.Id.NAME, include=JsonTypeInfo.As.EXTERNAL_PROPERTY, property="@class")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = ShuffleService.class, name = "ShuffleService")
 })
-public class NikeDeck implements Deck {
+public class ExpandedDeck implements Deck {
     private String name;
     private ArrayList cards;
     private ShuffleService shuffleService;
 
-    public NikeDeck() {
+    public ExpandedDeck() {
     }
-    public NikeDeck(String name, ShuffleService shuffleService){
+    public ExpandedDeck(String name, ShuffleService shuffleService){
         this.name=name;
-        //region Add Default cards
         ArrayList cards = new ArrayList();
         cards.add("2-heart");
         cards.add("3-heart");

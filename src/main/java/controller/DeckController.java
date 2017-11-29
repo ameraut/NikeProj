@@ -3,8 +3,11 @@ package controller;
 import dao.DeckDao;
 import resources.injector.*;
 import resources.objects.*;
+
 import javax.ws.rs.*;
-import javax.ws.rs.core.*;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
 import java.util.*;
 
 @Path("/decks")
@@ -13,9 +16,9 @@ public class DeckController {
 
     @GET
     public Response getDecks(){
-        List<NikeDeck> decks = deckDAO.getAllDecks();
+        List<ExpandedDeck> decks = deckDAO.getAllDecks();
         String deckNames = "";
-        for (NikeDeck deck: decks) {
+        for (ExpandedDeck deck: decks) {
             if(deckNames.equals("")){
                 deckNames+=deck.getName();
             }else{
@@ -29,7 +32,7 @@ public class DeckController {
     @Path("/{deckName}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getDeck(@PathParam("deckName") String deckName){
-        NikeDeck deck = deckDAO.getDeck(deckName);
+        ExpandedDeck deck = deckDAO.getDeck(deckName);
         if(deck==null){
             return Response.status(400).entity("getDeck is called, but the deck you requested does not exist.").build();
         }
@@ -41,7 +44,7 @@ public class DeckController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response createDeck(@QueryParam("deckName") String name,@QueryParam("shuffleType") String shuffleService){
         ShuffleServiceInjector injector;
-        NikeDeck deck;
+        ExpandedDeck deck;
         if(name.isEmpty()){
             return Response.status(400).entity("createDeck is called, but an improper deck name has been " +
                     "given").build();

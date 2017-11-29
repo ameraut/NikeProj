@@ -1,12 +1,7 @@
 package resources.injector;
 
-import resources.objects.NikeDeck;
+import resources.objects.ExpandedDeck;
 
-import java.util.ArrayList;
-
-/**
- * Created by Jon on 2/11/2017.
- */
 public interface ShuffleServiceInjector {
-    NikeDeck getDeck(String name);
+    ExpandedDeck getDeck(String name);
 }
